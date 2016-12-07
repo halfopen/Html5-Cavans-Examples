@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh" ><head>
+ <meta charset="gbk" />
+ <title>HTML5 五彩光盘</title>
+<script>
+
+// Get angle color function
+function getAngleColor(angle) {
+    var color, d;
+    if (angle < Math.PI * 2 / 5) { // angle: 0-72
+        d = 255 / (Math.PI * 2 / 5) * angle;
+        color = '255,' + Math.round(d) + ',0'; // color: 255,0,0 - 255,255,0
+    } else if (angle < Math.PI * 4 / 5) { // angle: 72-144
+        d = 255 / (Math.PI * 2 / 5) * (angle - Math.PI * 2 / 5);
+        color = (255 - Math.round(d)) + ',255,0'; // color: 255,255,0 - 0,255,0
+    } else if (angle < Math.PI * 6 / 5) { // angle: 144-216
+        d = 255 / (Math.PI * 2 / 5) * (angle - Math.PI * 4 / 5);
+        color = '0,255,' + Math.round(d); // color: 0,255,0 - 0,255,255
+    } else if (angle < Math.PI * 8 / 5) { // angle: 216-288
+        d = 255 / (Math.PI * 2 / 5) * (angle - Math.PI * 6 / 5);
+        color = '0,'+(255 - Math.round(d)) + ',255'; // color: 0,255,255 - 0,0,255
+    } else { // angle: 288-360
+        d = 255 / (Math.PI * 2 / 5) * (angle - Math.PI * 8 / 5);
+        color = Math.round(d) + ',0,' + (255 - Math.round(d)) ; // color: 0,0,255 - 255,0,0
+    }
+    return color;
+}
+var iSectors = 360;
+var iSectorAngle = (360/iSectors)/180 * Math.PI; // in radians
+function drawGradient(){
+   var canvas = document.getElementById('gradient');
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.save();
+    //重新映射画布上的 (0,0) 位置 到矩形正中间
+    ctx.translate(canvas.width/2, canvas.height/2);
+
+    for (var i = 0; i< iSectors; i++) {
+        var startAngle = 0;
+        var endAngle = startAngle + iSectorAngle;
+        var radius = (canvas.width/2) - 1;
+        var color = getAngleColor(iSectorAngle * i);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        //逆时针 画扇形
+        ctx.arc(0, 0, radius, startAngle, endAngle, false);
+        //创建从当前点回到起始点的路径
+        ctx.closePath();
+        ctx.strokeStyle = 'rgb('+color+')';
+        //绘制已定义的路径
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgb('+color+')';
+        //填充
+        ctx.fill();
+        //旋转图形
+        ctx.rotate(iSectorAngle);
+    }
+    //返回之前保存过的路径状态和属性
+    ctx.restore();
+}
+if(window.attachEvent) {
+    window.attachEvent('onload', drawGradient);
+} else {
+    if(window.onload) {
+        var curronload = window.onload;
+        var newonload = function() {
+            curronload();
+            drawGradient();
+        };
+        window.onload = newonload;
+    } else {
+        window.onload = drawGradient;
+    }
+}
+</script> </head>
+<body>
+ <div class="container">
+  <canvas id="gradient" width="500" height="500" tabindex="1">你的浏览器不支持HTML5</canvas>
+ </div>
+</body>
+</html>

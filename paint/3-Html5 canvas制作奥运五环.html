@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<canvas id="myCanvas2" style="border: 1px solid #c3c3c3; width: 400px; height: 200px;"> 
+  你的浏览器不支持canvas 
+</canvas> 
+  <script type="text/javascript">
+		var c = document.getElementById("myCanvas2");
+		var ctx = c.getContext("2d");
+	    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    	ctx.save();
+
+    	//平移位置
+    	ctx.translate(0, -20);
+
+		ctx.lineWidth = 5;
+
+		ctx.strokeStyle = "#163B62";
+		ctx.beginPath();
+		ctx.arc(70, 70, 40, 0, Math.PI * 2, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#000000";
+		ctx.beginPath();
+		ctx.arc(160, 70, 40, 0, Math.PI * 2, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#BF0628";
+		ctx.beginPath();
+		ctx.arc(250, 70, 40, 0, Math.PI * 2, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#EBC41F";
+		ctx.beginPath();
+		ctx.arc(110, 110, 40, 0, Math.PI * 2, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#198E4A";
+		ctx.beginPath();
+		ctx.arc(200, 110, 40, 0, Math.PI * 2, false);
+		ctx.stroke();
+
+		//绘制被遮挡部分
+		ctx.strokeStyle = "#163B62";
+		ctx.beginPath();
+		ctx.arc(70, 70, 40, Math.PI * 1.9, Math.PI * 2.1, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#000000";
+		ctx.beginPath();
+		ctx.arc(160, 70, 40, Math.PI * 0.9, Math.PI * 2.1, false);
+		ctx.stroke();
+
+		ctx.strokeStyle = "#BF0628";
+		ctx.beginPath();
+		ctx.arc(250, 70, 40, Math.PI * 0.9, Math.PI * 1.1, false);
+		ctx.stroke();
+
+		ctx.restore();
+	</script>
+</body>
+</html>
