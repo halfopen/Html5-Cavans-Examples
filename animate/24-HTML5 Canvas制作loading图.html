@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="gbk">
+  <title>HTML5 Canvas制作loading图</title>
+ </head>
+<body>
+ <canvas id = "canvas"></canvas>
+ <script>
+      var Loading = function (canvas, options) {
+        this.canvas = document.getElementById(canvas);
+        this.options = options;
+      };
+      Loading.prototype = {
+        constructor: Loading,
+        show: function () {
+          var canvas = this.canvas,
+          begin = this.options.begin,
+          old = this.options.old,
+          lineWidth = this.options.lineWidth,
+          canvasCenter = {x: canvas.width / 2, y: canvas.height / 2},
+          ctx = canvas.getContext("2d"),
+          color = this.options.color,
+          num = this.options.num,
+          angle = 0,
+          lineCap = this.options.lineCap,
+          CONST_PI = Math.PI * (360 / num) / 180;
+          window.timer = setInterval(function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < num; i += 1) {
+              ctx.beginPath();
+              ctx.strokeStyle = color[num - 1 - i];
+              ctx.lineWidth = lineWidth;
+              ctx.lineCap= lineCap;
+              ctx.moveTo(canvasCenter.x + Math.cos(CONST_PI * i + angle) * 
+                         begin, canvasCenter.y + Math.sin(CONST_PI * i + angle) * begin);
+              ctx.lineTo(canvasCenter.x + Math.cos(CONST_PI * i + angle) *
+                         old, canvasCenter.y + Math.sin(CONST_PI * i + angle) * old);
+              ctx.stroke();
+              ctx.closePath();
+            }
+            angle += CONST_PI;
+            console.log(angle)
+         },50);
+        },
+        
+        hide: function () {
+            clearInterval(window.timer);
+        }
+     };
+
+
+    (function () {
+      var options = {
+         num : 12,
+         begin: 20,
+         old: 40,
+         lineWidth: 10,
+         lineCap: "round",
+         color: ["rgb(0, 0, 0)", "rgb(20, 20, 20)","rgb(40, 40, 40)", "rgb(60, 60, 60)","rgb(80, 80, 80)",
+                "rgb(100, 100, 100)", "rgb(120, 120, 120)", "rgb(140, 140, 140)"]
+      };
+      var loading = new Loading("canvas", options);
+       loading.show();
+    }());
+</script>
+</body>
+</html>
